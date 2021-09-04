@@ -6,4 +6,4 @@ At Beach Side Bar we pride ourselves on data driven decision-making, we collect 
 
 Sandy enables our business to thrive by determining inventory cycles, forecasting sales, & ensure bartenders are serving at the epitome level.
 
-Take a dive off the deep end & take a look at Sandy, shirts & shoes unnecessary.
+Take a dive off the deep end & take a look at Sandy, shirts & shoes optional.
