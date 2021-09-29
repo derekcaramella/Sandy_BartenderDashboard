@@ -5,6 +5,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
+import ssh_tunnel
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']  # External styler, can change but don't need to
 restaurant_name = 'Sandy'  # restaurant name to be posted
