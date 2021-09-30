@@ -3,9 +3,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+from dash.exceptions import PreventUpdate
 import plotly.express as px
 import pandas as pd
 import ssh_tunnel
+import ast
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']  # External styler, can change but don't need to
 restaurant_name = 'Sandy'  # restaurant name to be posted
@@ -28,7 +30,7 @@ completed_orders_df = pd.DataFrame({
     'bartender_name': ['Derek', 'Derek', 'Lisa', 'Tapan', 'Derek', 'Derek', 'Lisa', 'Tapan', 'Lisa']
 })
 # Unnecessary dataframe, will be removed
-lag_time_orders = pd.read_csv('Book1.csv')
+lag_time_orders = pd.read_csv('LagTimes.csv')
 
 join_df = pd.merge(order_df, completed_orders_df)  # Join dfs so I can get bartender profit
 
@@ -72,7 +74,40 @@ bartender_order_completion_fig = px.histogram(lag_time_orders, x='order_lag_time
 
 # layout the application, each div has children
 app.layout = html.Div(children=[
-    html.H1(children=restaurant_name),  # Display the restaurant names in H1 markdown
+    html.H1(id='restaurant_name', children=restaurant_name),  # Display the restaurant names in H1 markdown
+
+    html.Div(children=[
+        dcc.ConfirmDialog(
+            id='value-added-drinks-error-create-drink',
+            message='Please, enter the correct value added drinks format. There should be only integers & a '
+                    'comma to separate drink amounts per value added drink. Additionally, ensure you have the same '
+                    'number of quantities (mL) and number of prices per bottle ($) to match the number of value '
+                    'added drinks.'),
+        dcc.ConfirmDialog(
+            id='number-type-error-create-drink',
+            message='Please, ensure you entered numeric information.'),
+        dcc.ConfirmDialog(
+            id='number-type-error-create-value-added-drink',
+            message='Please, ensure you entered numeric information.'),
+        dcc.ConfirmDialog(
+            id='complete-all-information-error-create-drink',
+            message='Please, complete user form.'),
+        dcc.ConfirmDialog(
+            id='complete-all-information-error-create-bartender',
+            message='Please, complete user form.'),
+        dcc.ConfirmDialog(
+            id='complete-all-information-error-create-value-added-drink',
+            message='Please, complete user form.'),
+        dcc.ConfirmDialog(
+            id='complete-all-information-error-delete-drink',
+            message='Please, complete user form.'),
+        dcc.ConfirmDialog(
+            id='complete-all-information-error-delete-bartender',
+            message='Please, complete user form.'),
+        dcc.ConfirmDialog(
+            id='complete-all-information-error-delete-value-added-drink',
+            message='Please, complete user form.'),
+    ]),
 
     # Date Range slider
     html.Div(children=[
@@ -80,7 +115,7 @@ app.layout = html.Div(children=[
                         min=range_slider_number_date[0],  # the first date
                         max=range_slider_number_date[-1],  # the last date
                         value=[range_slider_number_date[0], range_slider_number_date[-1]],  # From first to last
-                        marks=range_slider_dict)
+                        marks=range_slider_dict),
     ]),
 
     # Drinks dropdown menu for callback
@@ -106,7 +141,7 @@ app.layout = html.Div(children=[
 
     # Date Aggregator menu for callback
     html.Div(children=
-             dcc.Dropdown(id='date_aggregate-dropdown',  # id for callback
+             dcc.Dropdown(id='date-aggregate-dropdown',  # id for callback
                           options=[
                               {'label': 'Hours', 'value': 'hour'},
                               {'label': 'Days', 'value': 'day'},
@@ -135,8 +170,97 @@ app.layout = html.Div(children=[
                   style={'width': '48%', 'display': 'inline-block', 'padding': '0px 10px'}),  # Layout styling
         dcc.Graph(id='bartender-order-completion-fig', figure=bartender_order_completion_fig,
                   style={'width': '48%', 'display': 'inline-block', 'padding': '0px 10px'})
-    ])
+    ]),
+
+    html.Div(children=[
+        html.Div(children=[
+            html.H4(id='create-drink-userform-title', children='Create Drink'),  # Create Drink User Form Title
+            dcc.Input(id='create-drink-userform-drink-name', placeholder='Enter Drink Name', value=''),
+            dcc.Dropdown(id='create-drink-userform-value-added-drinks',  # id for callback
+                         options=bartender_options_dict,
+                         multi=True,  # Enable multiple selection
+                         # All the unique instances in the df for first load
+                         value=completed_orders_df['bartender_name'].unique(),
+                         placeholder='Value Added Drinks'),  # Prompt
+            dcc.Input(id='create-drink-userform-value-added-quantities', placeholder='Enter Value Added Drink Amounts',
+                      value=''),
+            html.Button(children='Create Drink', id='create-drink-userform-submit-entry')],
+            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+        # Layout styling
+
+        html.Div(children=[
+            html.H4(id='create-bartender-userform-title', children='Create Bartender'),  # Create Drink User Form Title
+            dcc.Input(id='create-bartender-userform-bartender-first-name', placeholder='Enter Bartender First Name',
+                      value=''),
+            dcc.Input(id='create-bartender-userform-bartender-last-name', placeholder='Enter Bartender Last Name',
+                      value=''),
+            dcc.Dropdown(id='create-bartender-userform-employment-type',  # id for callback
+                         options=[
+                             {'label': 'Part Time', 'value': 'Part Time'},
+                             {'label': 'Full Time', 'value': 'Full Time'}],
+                         multi=False,  # Disable multiple selection
+                         placeholder='Employment Type'),  # Prompt
+            dcc.Input(id='create-drink-userform-price', placeholder='Enter Drink Price ($)',
+                      value=''),
+            html.Button(children='Create Bartender', id='create-bartender-userform-submit-entry')],
+            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+
+        html.Div(children=[
+            html.H4(id='create-value-added-drink-userform-title', children='Create Value Added Drink'),
+            dcc.Input(id='create-value-added-drink-userform-drink-name', placeholder='Enter Value Added Drink Name',
+                      value=''),
+            dcc.Input(id='create-value-added-drink-userform-drink-bottle-size',
+                      placeholder='Enter Value Added Bottle Size (oz.)', value=''),
+            dcc.Input(id='create-value-added-drink-userform-drink-bottle-price',
+                      placeholder='Enter Value Added Price ($)', value=''),
+            html.Button(children='Create Value Added Drink', id='create-value-added-drink-userform-submit-entry')],
+            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+
+        html.Div(children=[
+            html.H4(id='delete-drink-userform-title', children='Delete Drink'),
+            dcc.Dropdown(id='delete-drink-userform-drink-name',  # id for callback
+                         options=drinks_options_dict,
+                         multi=False,  # Enable multiple selection
+                         # All the unique instances in the df for first load
+                         value='',
+                         placeholder='Drink Name'),  # Prompt
+            html.Button(children='Delete Drink', id='delete-drink-userform-submit-entry')],
+            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+
+        html.Div(children=[
+            html.H4(id='delete-bartender-userform-title', children='Delete Bartender'),
+            dcc.Dropdown(id='delete-drink-userform-bartender-name',  # id for callback
+                         options=bartender_options_dict,
+                         multi=False,  # Enable multiple selection
+                         # All the unique instances in the df for first load
+                         value='',
+                         placeholder='Bartender Full Name'),  # Prompt
+            html.Button(children='Delete Bartender', id='delete-bartender-userform-submit-entry')],
+            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+
+        html.Div(children=[
+            html.H4(id='delete-value-added-drink-userform-title', children='Delete Value Added Drink'),
+            dcc.Dropdown(id='delete-value-added-drink-userform-name',  # id for callback
+                         options=bartender_options_dict,
+                         multi=False,  # Enable multiple selection
+                         # All the unique instances in the df for first load
+                         value='',
+                         placeholder='Value Added Drink Name'),  # Prompt
+            html.Button(children='Delete Value Added Drink', id='delete-value-added-drink-userform-submit-entry')],
+            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+
+
+        # Layout styling
+    ], style={'width': '100%', 'display': 'inline-block'})
+
 ])
+
+create_drinks_n_of_clicks = 0
+create_bartender_n_of_clicks = 0
+create_value_added_n_of_clicks = 0
+delete_drink_n_of_clicks = 0
+delete_bartender_n_of_clicks = 0
+delete_value_added_n_of_clicks = 0
 
 
 # Callbacks are order sensitive, the order matters when inputting parameters into the output function
@@ -147,7 +271,7 @@ app.layout = html.Div(children=[
     # We convert these inputs to lists because they are multi input options, if was a single it doesn't need to be list
     [Input('date-range-slider', 'value')],  # First parameter into function is the date range slider
     [Input('drinks-dropdown', 'value')],  # Second parameter into function is the drinks dropdown
-    [Input('bartender-dropdown', 'value')]  # Third parameter into function is the bartender dropdown
+    [Input('bartender-dropdown', 'value')],  # Third parameter into function is the bartender dropdown
 )
 def update_figures(range_slider, drinks_dropdown, bartender_dropdown):
     # Filter date in between the range slider. The range slider will return the integers corresponding to the date
@@ -180,6 +304,171 @@ def update_figures(range_slider, drinks_dropdown, bartender_dropdown):
     # Return function must be in order of the Outputs in the callback decorator,
     # these will render in the corresponding Divs
     return revenue_timeline_callback_fig, order_pie_callback_fig, bartender_revenue_callback_fig
+
+
+@app.callback(
+    Output('value-added-drinks-error-create-drink', 'displayed'),
+    Output('number-type-error-create-drink', 'displayed'),
+    Output('complete-all-information-error-create-drink', 'displayed'),
+    Output('create-drink-userform-drink-name', 'value'),
+    Output('create-drink-userform-value-added-drinks', 'value'),
+    Output('create-drink-userform-value-added-quantities', 'value'),
+    Output('create-drink-userform-price', 'value'),
+    Input('create-drink-userform-drink-name', 'value'),
+    [Input('create-drink-userform-value-added-drinks', 'value')],
+    Input('create-drink-userform-value-added-quantities', 'value'),
+    Input('create-drink-userform-price', 'value'),
+    Input('create-drink-userform-submit-entry', 'n_clicks')
+
+)
+def create_drink_user_form(drink_name, value_added_drinks, value_added_drinks_quantities, drink_price,
+                           create_drink_clicks):
+    global create_drinks_n_of_clicks
+
+    if create_drink_clicks is not None and create_drink_clicks > create_drinks_n_of_clicks:
+        if drink_name == '' or value_added_drinks == [] or value_added_drinks_quantities == '':
+            create_drinks_n_of_clicks += 1
+            return False, False, True, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        for quantity in value_added_drinks_quantities.split(','):
+            try:
+                float(quantity)
+            except ValueError:
+                create_drinks_n_of_clicks += 1
+                return False, True, False, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        value_added_drinks_quantities = ast.literal_eval('[' + value_added_drinks_quantities + ']')
+
+        if len(value_added_drinks_quantities) != len(value_added_drinks):
+            create_drinks_n_of_clicks += 1
+            return True, False, False, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        try:
+            drink_price = float(drink_price)
+        except ValueError:
+            create_drinks_n_of_clicks += 1
+            return False, True, False, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+
+        create_drinks_n_of_clicks += 1
+        return False, False, False, '', [], '', ''
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output('complete-all-information-error-create-bartender', 'displayed'),
+    Output('create-bartender-userform-bartender-first-name', 'value'),
+    Output('create-bartender-userform-bartender-last-name', 'value'),
+    Output('create-bartender-userform-employment-type', 'value'),
+    Input('create-bartender-userform-bartender-first-name', 'value'),
+    Input('create-bartender-userform-bartender-last-name', 'value'),
+    Input('create-bartender-userform-employment-type', 'value'),
+    Input('create-bartender-userform-submit-entry', 'n_clicks')
+
+)
+def create_bartender_user_form(bartender_first_name, bartender_last_name, bartender_employment_type,
+                               create_bartender_clicks):
+    global create_bartender_n_of_clicks
+
+    if create_bartender_clicks is not None and create_bartender_clicks > create_bartender_n_of_clicks:
+        if bartender_first_name == '' or bartender_last_name == [] or bartender_employment_type == '':
+            create_bartender_n_of_clicks += 1
+            return True, dash.no_update, dash.no_update, dash.no_update
+
+        create_bartender_n_of_clicks += 1
+        return False, '', '', ''
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output('complete-all-information-error-create-value-added-drink', 'displayed'),
+    Output('number-type-error-create-value-added-drink', 'displayed'),
+    Output('create-value-added-drink-userform-drink-name', 'value'),
+    Output('create-value-added-drink-userform-drink-bottle-size', 'value'),
+    Output('create-value-added-drink-userform-drink-bottle-price', 'value'),
+    Input('create-value-added-drink-userform-drink-name', 'value'),
+    Input('create-value-added-drink-userform-drink-bottle-size', 'value'),
+    Input('create-value-added-drink-userform-drink-bottle-price', 'value'),
+    Input('create-value-added-drink-userform-submit-entry', 'n_clicks')
+)
+def create_value_added_drink_user_form(value_added_drink_name, value_added_bottle_size, value_added_bottle_price,
+                                       create_value_added_clicks):
+    global create_value_added_n_of_clicks
+
+    if create_value_added_clicks is not None and create_value_added_clicks > create_value_added_n_of_clicks:
+        if value_added_drink_name == '' or value_added_bottle_size == '' or value_added_bottle_price == '':
+            create_value_added_n_of_clicks += 1
+            return True, False, dash.no_update, dash.no_update, dash.no_update
+
+        try:
+            value_added_bottle_size = float(value_added_bottle_size)
+            value_added_bottle_price = float(value_added_bottle_price)
+        except ValueError:
+            create_value_added_n_of_clicks += 1
+            return True, False, dash.no_update, dash.no_update, dash.no_update
+
+        create_value_added_n_of_clicks += 1
+        return False, False, '', '', ''
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output('complete-all-information-error-delete-drink', 'displayed'),
+    Output('delete-drink-userform-drink-name', 'value'),
+    Input('delete-drink-userform-drink-name', 'value'),
+    Input('delete-drink-userform-submit-entry', 'n_clicks')
+)
+def create_value_added_drink_user_form(drink_name, delete_drink_clicks):
+    global delete_drink_n_of_clicks
+
+    if delete_drink_clicks is not None and delete_drink_clicks > delete_drink_n_of_clicks:
+        if drink_name == '':
+            delete_drink_n_of_clicks += 1
+            return True, dash.no_update
+
+        delete_drink_n_of_clicks += 1
+        return True, ''
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output('complete-all-information-error-delete-bartender', 'displayed'),
+    Output('delete-drink-userform-bartender-name', 'value'),
+    Input('delete-drink-userform-bartender-name', 'value'),
+    Input('delete-bartender-userform-submit-entry', 'n_clicks')
+)
+def create_value_added_drink_user_form(drink_name, delete_drink_clicks):
+    global delete_bartender_n_of_clicks
+
+    if delete_drink_clicks is not None and delete_drink_clicks > delete_drink_n_of_clicks:
+        if drink_name == '':
+            delete_bartender_n_of_clicks += 1
+            return True, dash.no_update
+
+        delete_bartender_n_of_clicks += 1
+        return True, ''
+    else:
+        raise PreventUpdate
+
+
+@app.callback(
+    Output('complete-all-information-error-delete-value-added-drink', 'displayed'),
+    Output('delete-value-added-drink-userform-name', 'value'),
+    Input('delete-value-added-drink-userform-name', 'value'),
+    Input('delete-value-added-drink-userform-submit-entry', 'n_clicks')
+)
+def create_value_added_drink_user_form(value_added_drink_name, delete_value_added_drink_clicks):
+    global delete_value_added_n_of_clicks
+
+    if delete_value_added_drink_clicks is not None and delete_value_added_drink_clicks > delete_value_added_n_of_clicks:
+        if value_added_drink_name == '':
+            delete_value_added_n_of_clicks += 1
+            return True, dash.no_update
+
+        delete_value_added_n_of_clicks += 1
+        return True, ''
+    else:
+        raise PreventUpdate
 
 
 # Run the application in debug mode for automatic updating
