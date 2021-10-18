@@ -174,81 +174,94 @@ app.layout = html.Div(children=[
 
     html.Div(children=[
         html.Div(children=[
-            html.H4(id='create-drink-userform-title', children='Create Drink'),  # Create Drink User Form Title
-            dcc.Input(id='create-drink-userform-drink-name', placeholder='Enter Drink Name', value=''),
-            dcc.Dropdown(id='create-drink-userform-value-added-drinks',  # id for callback
-                         options=bartender_options_dict,
-                         multi=True,  # Enable multiple selection
-                         # All the unique instances in the df for first load
-                         value=completed_orders_df['bartender_name'].unique(),
-                         placeholder='Value Added Drinks'),  # Prompt
-            dcc.Input(id='create-drink-userform-value-added-quantities', placeholder='Enter Value Added Drink Amounts',
-                      value=''),
-            html.Button(children='Create Drink', id='create-drink-userform-submit-entry')],
-            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
-        # Layout styling
+            html.Div(children=[
+                html.H4(id='create-drink-userform-title', children='Create Drink'),  # Create Drink User Form Title
+                dcc.Input(id='create-drink-userform-drink-name', placeholder='Enter Drink Name', value='', style={'width': '75%'}),
+                html.Br(),
+                dcc.Dropdown(id='create-drink-userform-value-added-drinks',  # id for callback
+                             options=bartender_options_dict,
+                             multi=True,  # Enable multiple selection
+                             # All the unique instances in the df for first load
+                             value=completed_orders_df['bartender_name'].unique(),
+                             placeholder='Value Added Drinks'),  # Prompt
+                dcc.Input(id='create-drink-userform-value-added-quantities', placeholder='Enter Value Added Drink Amounts',
+                          value='', style={'width': '75%'}),
+                html.Br(),
+                html.Button(children='Create Drink', id='create-drink-userform-submit-entry')],
+                style={'width': '30%', 'padding': '0px 10px', 'vertical-align': 'top', 'display': 'inline-block'}),
+            # Layout styling
 
+            html.Div(children=[
+                html.H4(id='create-bartender-userform-title', children='Create Bartender'),  # Create Drink User Form Title
+                dcc.Input(id='create-bartender-userform-bartender-first-name', placeholder='Enter Bartender First Name',
+                          value='', style={'width': '75%'}),
+                html.Br(),
+                dcc.Input(id='create-bartender-userform-bartender-last-name', placeholder='Enter Bartender Last Name',
+                          value='', style={'width': '75%'}),
+                html.Br(),
+                dcc.Dropdown(id='create-bartender-userform-employment-type',  # id for callback
+                             options=[
+                                 {'label': 'Part Time', 'value': 'Part Time'},
+                                 {'label': 'Full Time', 'value': 'Full Time'}],
+                             multi=False,  # Disable multiple selection
+                             placeholder='Employment Type'),  # Prompt
+                dcc.Input(id='create-drink-userform-price', placeholder='Enter Drink Price ($)',
+                          value='', style={'width': '75%'}),
+                html.Br(),
+                html.Button(children='Create Bartender', id='create-bartender-userform-submit-entry')],
+                style={'width': '30%', 'padding': '0px 10px', 'vertical-align': 'top', 'display': 'inline-block'}),
+
+            html.Div(children=[
+                html.H4(id='create-value-added-drink-userform-title', children='Create Value Added Drink'),
+                dcc.Input(id='create-value-added-drink-userform-drink-name', placeholder='Enter Value Added Drink Name',
+                          value='', style={'width': '75%'}),
+                html.Br(),
+                dcc.Input(id='create-value-added-drink-userform-drink-bottle-size',
+                          placeholder='Enter Value Added Bottle Size (oz.)', value='', style={'width': '75%'}),
+                html.Br(),
+                dcc.Input(id='create-value-added-drink-userform-drink-bottle-price',
+                          placeholder='Enter Value Added Price ($)', value='', style={'width': '75%'}),
+                html.Br(),
+                html.Button(children='Create Value Added Drink', id='create-value-added-drink-userform-submit-entry')],
+                style={'width': '30%', 'padding': '0px 5px', 'vertical-align': 'top', 'display': 'inline-block'})
+        ]),
         html.Div(children=[
-            html.H4(id='create-bartender-userform-title', children='Create Bartender'),  # Create Drink User Form Title
-            dcc.Input(id='create-bartender-userform-bartender-first-name', placeholder='Enter Bartender First Name',
-                      value=''),
-            dcc.Input(id='create-bartender-userform-bartender-last-name', placeholder='Enter Bartender Last Name',
-                      value=''),
-            dcc.Dropdown(id='create-bartender-userform-employment-type',  # id for callback
-                         options=[
-                             {'label': 'Part Time', 'value': 'Part Time'},
-                             {'label': 'Full Time', 'value': 'Full Time'}],
-                         multi=False,  # Disable multiple selection
-                         placeholder='Employment Type'),  # Prompt
-            dcc.Input(id='create-drink-userform-price', placeholder='Enter Drink Price ($)',
-                      value=''),
-            html.Button(children='Create Bartender', id='create-bartender-userform-submit-entry')],
-            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+            html.Div(children=[
+                html.H4(id='delete-drink-userform-title', children='Delete Drink'),
+                dcc.Dropdown(id='delete-drink-userform-drink-name',  # id for callback
+                             options=drinks_options_dict,
+                             multi=False,  # Enable multiple selection
+                             # All the unique instances in the df for first load
+                             value='',
+                             placeholder='Drink Name'),  # Prompt
+                html.Br(),
+                html.Button(children='Delete Drink', id='delete-drink-userform-submit-entry')],
+                style={'width': '30%', 'padding': '0px 5px', 'vertical-align': 'top', 'display': 'inline-block'}),
 
-        html.Div(children=[
-            html.H4(id='create-value-added-drink-userform-title', children='Create Value Added Drink'),
-            dcc.Input(id='create-value-added-drink-userform-drink-name', placeholder='Enter Value Added Drink Name',
-                      value=''),
-            dcc.Input(id='create-value-added-drink-userform-drink-bottle-size',
-                      placeholder='Enter Value Added Bottle Size (oz.)', value=''),
-            dcc.Input(id='create-value-added-drink-userform-drink-bottle-price',
-                      placeholder='Enter Value Added Price ($)', value=''),
-            html.Button(children='Create Value Added Drink', id='create-value-added-drink-userform-submit-entry')],
-            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
+            html.Div(children=[
+                html.H4(id='delete-bartender-userform-title', children='Delete Bartender'),
+                dcc.Dropdown(id='delete-drink-userform-bartender-name',  # id for callback
+                             options=bartender_options_dict,
+                             multi=False,  # Enable multiple selection
+                             # All the unique instances in the df for first load
+                             value='',
+                             placeholder='Bartender Full Name'),  # Prompt
+                html.Br(),
+                html.Button(children='Delete Bartender', id='delete-bartender-userform-submit-entry')],
+                style={'width': '30%', 'padding': '0px 5px', 'vertical-align': 'top', 'display': 'inline-block'}),
 
-        html.Div(children=[
-            html.H4(id='delete-drink-userform-title', children='Delete Drink'),
-            dcc.Dropdown(id='delete-drink-userform-drink-name',  # id for callback
-                         options=drinks_options_dict,
-                         multi=False,  # Enable multiple selection
-                         # All the unique instances in the df for first load
-                         value='',
-                         placeholder='Drink Name'),  # Prompt
-            html.Button(children='Delete Drink', id='delete-drink-userform-submit-entry')],
-            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
-
-        html.Div(children=[
-            html.H4(id='delete-bartender-userform-title', children='Delete Bartender'),
-            dcc.Dropdown(id='delete-drink-userform-bartender-name',  # id for callback
-                         options=bartender_options_dict,
-                         multi=False,  # Enable multiple selection
-                         # All the unique instances in the df for first load
-                         value='',
-                         placeholder='Bartender Full Name'),  # Prompt
-            html.Button(children='Delete Bartender', id='delete-bartender-userform-submit-entry')],
-            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
-
-        html.Div(children=[
-            html.H4(id='delete-value-added-drink-userform-title', children='Delete Value Added Drink'),
-            dcc.Dropdown(id='delete-value-added-drink-userform-name',  # id for callback
-                         options=bartender_options_dict,
-                         multi=False,  # Enable multiple selection
-                         # All the unique instances in the df for first load
-                         value='',
-                         placeholder='Value Added Drink Name'),  # Prompt
-            html.Button(children='Delete Value Added Drink', id='delete-value-added-drink-userform-submit-entry')],
-            style={'width': '40%', 'padding': '0px 10px', 'vertical-align': 'top'}),
-
+            html.Div(children=[
+                html.H4(id='delete-value-added-drink-userform-title', children='Delete Value Added Drink'),
+                dcc.Dropdown(id='delete-value-added-drink-userform-name',  # id for callback
+                             options=bartender_options_dict,
+                             multi=False,  # Enable multiple selection
+                             # All the unique instances in the df for first load
+                             value='',
+                             placeholder='Value Added Drink Name'),  # Prompt
+                html.Br(),
+                html.Button(children='Delete Value Added Drink', id='delete-value-added-drink-userform-submit-entry')],
+                style={'width': '30%', 'padding': '0px 5px', 'vertical-align': 'top', 'display': 'inline-block'})
+        ])
 
         # Layout styling
     ], style={'width': '100%', 'display': 'inline-block'})
