@@ -13,8 +13,9 @@
 5. Activate virtual environment: <code>.\venv\Scripts\activate</code>
 6. Download repository into the directory
 7. Install required packages: <code>py -m pip install -r requirements.txt</code>
-8. Run the code: <code>python resturant_plotly.py</code>
-9. Open web browser: http://127.0.0.1:8050/
+8. Ensure your system is on the University of Rochester's network using CISCO.
+9. Run the code: <code>python resturant_plotly.py</code>
+10. Open web browser: http://127.0.0.1:8050/
 
 
 ## MacOS
@@ -25,8 +26,9 @@
 5. Activate virtual environment: <code>source venv/bin/activate</code>
 6. Download repository into the directory
 7. Install required packages: <code>python3 -m pip install -r requirements.txt</code>
-8. Run the code: <code>python3 resturant_plotly.py</code>
-9. Open web browser: http://127.0.0.1:8050/
+8. Ensure your system is on the University of Rochester's network using CISCO.
+9. Run the code: <code>python3 resturant_plotly.py</code>
+10. Open web browser: http://127.0.0.1:8050/
 
 <p>&nbsp;</p>
 
