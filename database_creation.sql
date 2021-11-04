@@ -120,6 +120,6 @@ AND information_schema.TABLE_CONSTRAINTS.TABLE_NAME='CompletedOrders';
 --  _/   \_/~~~~~~\
 -- /~~~~~~/        \
 --(______( PASSPORT )
--- |SKOTCH\        /
+-- |SCOTCH\        /
 -- |______ )______(
 --(_______/________\
