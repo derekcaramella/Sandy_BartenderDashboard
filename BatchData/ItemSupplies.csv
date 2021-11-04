@@ -1,41 +1,33 @@
-﻿Supply_id,Item_name,Item_size,Item_price
-1,Fugu Vodka,25,17
-2,PAMA Pomegranate Liqueur,25,22
-3,soda water,33,5
-4,St. Elder Elderflower Liqueur,25,15
-5,pears,66,5
-6,Ketel One Botanical Grapefruit & Rose Vodka,25,32
-7,prickly pear lemonade,25,10
-8,sparkling wine,25,20
-9,Chambord,25,40
-10,Smirnoff Twist Cherry Vodka,25,12
-11,orange juice,25,5
-12,Ketel One Botanical Peach & Orange Blossom Vodka,25,35
-13,Aperol,25,25
-14,Old Grove Gin,25,25
-15,Tabasco,25,30
-16,Bali Hai Tiki Gold,25,35
-17,simple syrup,25,10
-18,cranberry juice,25,2
-19,Espolon Blanco Tequila,25,25
-20,triple sec,25,40
-21,ruby red grapefruit juice,25,2
-22,Zyr Vodka,25,30
-23,framboise,25,11
-24,One Roq Raspberry Vodka,25,28
-25,Maker’s Mark Bourbon,25,30
-26,Angostura bitters,25,23
-27,Redemption Rye,25,24
-28,Italian sweet vermouth,25,7
-29,ginger beer,25,3
-30,Jim Beam Bourbon,25,25
-31,Jameson Caskmates Irish Whiskey,25,30
-32,Three Sheets Spiced Rum,25,30
-33,Bali Hai Coconut Rum,25,30
-34,blueberries,5,10
-35,mint,3,26
-36,basil,15,8
-37,fresh lime,70,5
-38,cucumber,15,2
-39,cherries,4,15
-40,raw sugar,35,5
+Supply_id,Item_name,Item_size,Item_price
+1,Fugu Vodka,750,17
+2,PAMA Pomegranate Liquer,750,22
+3,Soda Water,50,5
+4,St. Elder Elderflower Liquer,750,15
+5,Ketel One Botanical Grapefruit & Rose Vodka,750,5
+6,Prickly Pear Vodka,50,32
+7,Sparking Wine,750,20
+8,Chambord,375,40
+9,Smirnoff Twist Cherry Vodka,750,12
+10,Orange Juice,1500,3
+11,Ketel One Botanical Peach & Orange Blossom Vodka,750,35
+12,Aperol,750,25
+13,Old Grove Gin,750,25
+14,Tabasco,350,10
+15,Bali Hai Tiki Gold,750,35
+16,Simple Syrup,750,10
+17,Cranberry Juice,1500,2
+18,Espolon Blanco Tequila,750,25
+19,Triple Sec,750,40
+20,Ruby Red Grapefruit Juice,1500,2
+21,Zyr Vodka,750,30
+22,Framboise,750,11
+23,One Roq Raspberry Vodka,750,28
+24,Maker's Mark Bourbon,750,30
+25,Angostura Bitters,120,23
+26,Redemption Rye,750,24
+27,Italian Sweet Vermouth,375,7
+28,Ginger Beer,375,3
+29,Jim Beam Bourbon,750,25
+30,Jameson Caskmates Irish Whiskey,750,30
+31,Three Sheets Spiced Rum,750,30
+32,Bali Hai Coconum Rum,750,30
