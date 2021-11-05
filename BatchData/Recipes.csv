@@ -20,7 +20,7 @@ Finished_Item_id,Supply_id,Reciple_amount
 7,14,45
 7,13,2
 7,3,250
-8,33,15
+8,32,15
 8,15,45
 8,3,250
 9,9,90
@@ -43,5 +43,5 @@ Finished_Item_id,Supply_id,Reciple_amount
 14,25,1
 14,26,45
 15,1,90
-15,33,15
+15,32,15
 15,28,250

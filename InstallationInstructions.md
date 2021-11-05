@@ -14,7 +14,7 @@
 6. Download repository into the directory
 7. Install required packages: <code>py -m pip install -r requirements.txt</code>
 8. Ensure your system is on the University of Rochester's network using CISCO.
-9. Run the code: <code>python resturant_plotly.py</code>
+9. Run the code: <code>python local_betaweb_app.py</code>
 10. Open web browser: http://127.0.0.1:8050/
 
 
@@ -27,7 +27,7 @@
 6. Download repository into the directory
 7. Install required packages: <code>python3 -m pip install -r requirements.txt</code>
 8. Ensure your system is on the University of Rochester's network using CISCO.
-9. Run the code: <code>python3 resturant_plotly.py</code>
+9. Run the code: <code>python3 local_betaweb_app.py</code>
 10. Open web browser: http://127.0.0.1:8050/
 
 <p>&nbsp;</p>

@@ -49,9 +49,9 @@ INSERT INTO EmploymentTypes VALUES
     (2, 'Part Time'),
     (3, 'Unemployed');
 
------
+--
 -- Foreign Key Constraints
------
+--
 
 -- When an order is deleted, delete the completed order
 ALTER TABLE CompletedOrders
@@ -105,7 +105,7 @@ ALTER TABLE Recipes
 -- View attribute domains
 SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE
 FROM INFORMATION_SCHEMA.columns
-WHERE table_schema='dcaramel_1';
+WHERE table_schema='derekcaramella$dcaramel_1';
 
 SELECT *
 FROM information_schema.TABLE_CONSTRAINTS
@@ -113,13 +113,14 @@ WHERE INFORMATION_SCHEMA.TABLE_CONSTRAINTS.CONSTRAINT_TYPE='FOREIGN KEY'
 AND information_schema.TABLE_CONSTRAINTS.TABLE_NAME='CompletedOrders';
 
 
-
---    ___    ____
---   |___|  (____)
---    | |   _)  (_
---  _/   \_/~~~~~~\
--- /~~~~~~/        \
---(______( PASSPORT )
--- |SCOTCH\        /
--- |______ )______(
---(_______/________\
+/*
+    ___    ____
+   |___|  (____)
+    | |   _)  (_
+  _/   \_/~~~~~~\
+ /~~~~~~/        \
+(______( PASSPORT )
+ |SCOTCH\        /
+ |______ )______(
+(_______/________\
+*/

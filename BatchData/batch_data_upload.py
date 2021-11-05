@@ -1,4 +1,4 @@
-import ssh_tunnel
+import betaweb_ssh_tunnel
 import pandas as pd
 
 
@@ -18,8 +18,8 @@ default_table = 'dcaramel_1'
 local_host = '127.0.0.1'
 local_port = 3306
 
-connection = ssh_tunnel.MySQLTunnel(host, port, betaweb_username, betaweb_password, default_table, local_host,
-                                    local_port)
+connection = betaweb_ssh_tunnel.MySQLTunnel(host, port, betaweb_username, betaweb_password, default_table, local_host,
+                                            local_port)
 
 bartenders = pd.read_csv('Bartenders.csv')
 item_supplies = pd.read_csv('ItemSupplies.csv')
