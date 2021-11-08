@@ -9,7 +9,8 @@ import pandas as pd
 import ast
 import datetime
 from ssh_tunnel import MySQLTunnel
-
+import xlsxwriter
+import io
 
 host_name = 'derekcaramella.mysql.pythonanywhere-services.com'
 username = 'derekcaramella'
@@ -113,7 +114,13 @@ bartender_order_completion_fig = px.histogram(bartender_lag_df, x='Service_time'
 
 # layout the application, each div has children
 app.layout = html.Div(children=[
-    html.H1(id='restaurant_name', children=restaurant_name),  # Display the restaurant names in H1 markdown
+    html.Div(children=[
+        html.H1(id='restaurant_name', children=restaurant_name, style={'display': 'inline'}),
+        html.Button(id='download-dataframe-button', children='Download Data',
+                    style={'float': 'right', 'vertical-align': 'bottom', 'bottom': '0', 'margin-top': '0px',
+                           'backgroundColor': '#4CA9B9', 'color': '#E9D3AC'}),
+        dcc.Download(id='download-dataframe-xlsx')
+        ], style={'width': '100%'}),  # Display the restaurant names in H1 markdown
 
     html.Div(children=[
         dcc.ConfirmDialog(
@@ -477,6 +484,36 @@ def update_base_queries(_):
     return drinks_options_dict, bartender_options_dict, item_supplies_options_dict, drinks_options_dict, \
            item_supplies_options_dict, bartender_options_dict, item_supplies_options_dict, drinks_options_dict, \
            bartender_options_dict, item_supplies_options_dict
+
+
+@app.callback(
+    Output('download-dataframe-xlsx', 'data'),
+    Input('download-dataframe-button', 'n_clicks'),
+    prevent_initial_call=True
+)
+def download_data(n_clicks):
+    export = io.BytesIO()
+    writer = pd.ExcelWriter(export, engine='xlsxwriter')
+
+    bartenders = connection.query('SELECT * FROM Bartenders;')
+    completed_orders = connection.query('SELECT * FROM CompletedOrders;')
+    employment_types = connection.query('SELECT * FROM EmploymentTypes;')
+    item_supplies = connection.query('SELECT * FROM ItemSupplies;')
+    orderable_items = connection.query('SELECT * FROM OrderableItems;').sort_values('Item_name')
+    orders = connection.query('SELECT * FROM Orders;')
+    recipes = connection.query('SELECT * FROM Recipes;')
+
+    bartenders.to_excel(writer, sheet_name='Bartenders', index=False)
+    completed_orders.to_excel(writer, sheet_name='Completed Orders', index=False)
+    employment_types.to_excel(writer, sheet_name='Employment Types', index=False)
+    item_supplies.to_excel(writer, sheet_name='Item Supplies', index=False)
+    orderable_items.to_excel(writer, sheet_name='Orderable Items', index=False)
+    orders.to_excel(writer, sheet_name='Orders', index=False)
+    recipes.to_excel(writer, sheet_name='Recipes', index=False)
+    writer.save()
+    export_data = export.getvalue()
+
+    return dcc.send_bytes(export_data, 'DataFrame.xlsx')
 
 
 # Callbacks are order sensitive, the order matters when inputting parameters into the output function
