@@ -1,0 +1,29 @@
+LOAD DATA LOCAL INFILE "/home/dcaramel/BatchData/Bartenders.csv" INTO TABLE Bartenders
+	FIELDS TERMINATED BY ','
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE "/home/dcaramel/BatchData/ItemSupplies.csv" INTO TABLE ItemSupplies
+	FIELDS TERMINATED BY ','
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE "/home/dcaramel/BatchData/OrderableItems.csv" INTO TABLE OrderableItems
+	FIELDS TERMINATED BY ','
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE "/home/dcaramel/BatchData/Recipes.csv" INTO TABLE Recipes
+	FIELDS TERMINATED BY ','
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE "/home/dcaramel/BatchData/Orders.csv" INTO TABLE Orders
+	FIELDS TERMINATED BY ','
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE '/home/dcaramel/BatchData/CompletedOrders.csv' INTO TABLE CompletedOrders
+	FIELDS TERMINATED BY ','
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
