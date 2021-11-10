@@ -840,7 +840,7 @@ def update_drink_user_form(drink_id, new_drink_name, value_added_drinks, value_a
 
         update_drinks_n_of_clicks += 1  # Increase the global clicks by one
 
-        return False, False, False, '', '', [], '', ''  # Reset user form
+        return False, False, False, False, '', '', [], '', ''  # Reset user form
     else:
         raise PreventUpdate
 

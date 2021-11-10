@@ -16,6 +16,7 @@ class MySQLTunnel:
                                      user=self.username,
                                      password=self.password,
                                      database=self.database_name)
+        self.cursor = self.connection.cursor()
 
     def query(self, query):
         """Dataframe query. Does not include INSERT, UPDATE, & DELETE"""
@@ -23,7 +24,7 @@ class MySQLTunnel:
 
     def non_query_statements(self, sql_statement):
         """SQL Statements not including select"""
-        self.connection.cursor().execute(sql_statement)
+        self.cursor.execute(sql_statement)
         self.connection.commit()
         return True
 
