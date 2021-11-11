@@ -8,7 +8,7 @@ FD<sub>Bartenders</sub>={Bartender_id→First_name, Bartender_id→Last_name}
 
 CompletedOrders(<i>Order_id, Bartender_service, Completed_time</i>)
 
-FD<sub>CompletedOrders</sub>={Order_id→Bartender_service, Order_id→Completed_time}
+FD<sub>CompletedOrders</sub>={Order_id→Completed_time}
 <p>&nbsp;</p>
 
 
@@ -28,7 +28,7 @@ FD<sub>ItemSupplies</sub>={Item_id→Item_name, Item_id→Item_size, Item_id→I
 
 OrderableItems(<i>Item_id, Item_name, Item_price, Available</i>)
 
-FD<sub>OrderableItems</sub>={Item_id→Item_name, Item_id→Item_price, Item_id→Available}
+FD<sub>OrderableItems</sub>={Item_id→Item_name, Item_id→Item_price}
 
 <i>Note: Item name does not determine item price or availability becuase duplicate items may exist. Although the GUI interface will restrict duplicates, database interaction may introduce duplicate items.</i>
 <p>&nbsp;</p>
