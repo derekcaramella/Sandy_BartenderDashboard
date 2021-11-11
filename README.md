@@ -13,3 +13,6 @@ The web application is hosted on <a href="www.pythonanywhere.com">Python Anywher
 Python Anywhere is a Platform as a Service (PaaS) company that hosts the Sandy application. Additionally, the MySQL database is hosted by the organization. The developers identified 100 second processing time and 500 MB hard drive storage for the software.
 
 Access <a href="http://derekcaramella.pythonanywhere.com/">Sandy</a> today to bring power to your decision-making!
+
+***
+All data was synthetically generated applying customized python sampling and execution for the application.
