@@ -16,8 +16,9 @@ host_name = 'derekcaramella.mysql.pythonanywhere-services.com'
 username = 'derekcaramella'
 password = 'PladisTurtles'
 default_database = 'derekcaramella$dcaramel_1'
+token = 'e4377f2b19882ca2de7de676ba9475abf9a58645'
 
-connection = MySQLTunnel(host_name, username, password, default_database)
+connection = MySQLTunnel(host_name, username, password, default_database, token)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']  # External styler, can change but don't need to
 restaurant_name = 'Sandy'  # restaurant name to be posted
@@ -415,15 +416,15 @@ app.layout = html.Div(children=[
 
 ])
 
-create_drinks_n_of_clicks = 0
-create_bartender_n_of_clicks = 0
-create_value_added_n_of_clicks = 0
-update_drinks_n_of_clicks = 0
-update_bartender_n_of_clicks = 0
-update_value_added_n_of_clicks = 0
-delete_drink_n_of_clicks = 0
-delete_bartender_n_of_clicks = 0
-delete_value_added_n_of_clicks = 0
+create_drinks_n_of_clicks = -1
+create_bartender_n_of_clicks = -1
+create_value_added_n_of_clicks = -1
+update_drinks_n_of_clicks = -1
+update_bartender_n_of_clicks = -1
+update_value_added_n_of_clicks = -1
+delete_drink_n_of_clicks = -1
+delete_bartender_n_of_clicks = -1
+delete_value_added_n_of_clicks = -1
 
 
 @app.callback(
