@@ -1,4 +1,4 @@
-from ssh_tunnel import MySQLTunnel
+from loadSSHTunnel import MySQLTunnel
 import pandas as pd
 
 
